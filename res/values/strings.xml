@@ -4,5 +4,7 @@
     <string name="app_name">Popular Photos</string>
     <string name="hello_world">Hello world!</string>
     <string name="caption_default_text">Default Caption</string>
+    <string name="userName_default_text">Default user name</string>
+    <string name="location_default_text">Location</string>
 
 </resources>

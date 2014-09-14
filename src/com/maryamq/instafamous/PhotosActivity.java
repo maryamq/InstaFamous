@@ -66,6 +66,12 @@ public class PhotosActivity extends Activity {
 					photosJSON = response.getJSONArray("data");
 					for (i = 0; i < photosJSON.length(); i++) {
 						JSONObject photoJSON = photosJSON.getJSONObject(i);
+						// Check if this is an image
+						if (!getStringIfNotNull(photoJSON, "type", "image").equals("image")) {
+							continue;
+						}
+							
+						
 						InstagramPhoto photo = new InstagramPhoto();
 						String userName = getStringIfNotNull(
 								photoJSON.getJSONObject("user"), "username", "");
@@ -95,10 +101,12 @@ public class PhotosActivity extends Activity {
 						// parse commentors
 						JSONObject commentsContainer = photoJSON.getJSONObject("comments");
 						if (commentsContainer != null) {
+							photo.commentsCount = getIntIfNotNull(commentsContainer, "count", 0);
 							JSONArray comments = commentsContainer.getJSONArray("data");
 							parseComments(photo, comments);
 						}
 						
+						photo.location = "Unknown Location";
 						if (!photoJSON.isNull("location")) {
 							//photo.location = getStringIfNotNull(photoJSON, "location", "");
 							photo.location = "World";
@@ -129,6 +137,7 @@ public class PhotosActivity extends Activity {
 					c.user.profilePictureUrl = getStringIfNotNull(photoComment.getJSONObject("from"), "profile_picture", "");
 					c.comment = getStringIfNotNull(photoComment, "text", "");
 					photo.comments.add(c);
+
 				}
 			}
 

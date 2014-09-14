@@ -11,9 +11,9 @@ public class InstagramPhoto {
 	public String imageUrl;
 	public String location = "";
 	public List<Comment> comments = new ArrayList<Comment>();
+	protected int commentsCount;
 
 }
-
 
 class Comment {
 	public User user;

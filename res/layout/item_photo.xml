@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent" >
 
     <ImageView
@@ -10,20 +9,21 @@
         android:layout_height="40dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
         android:scaleType="fitXY"
         android:src="@drawable/ic_launcher" />
 
     <ImageView
         android:id="@+id/imgPhoto"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/tvLocation"
         android:layout_marginTop="5dp"
         android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         android:src="@drawable/ic_launcher" />
 
     <TextView
@@ -71,5 +71,23 @@
         android:layout_alignTop="@+id/tvLikes"
         android:scaleType="fitXY"
         android:src="@drawable/ic_heart" />
+
+    <ImageButton
+        android:id="@+id/imgBtnComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/imgHeart"
+        android:layout_below="@+id/tvCaption"
+        android:background="@null"
+        android:src="@drawable/ic_speak" />
+
+    <TextView
+        android:id="@+id/tvCommentsCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imgBtnComment"
+        android:layout_marginBottom="14dp"
+        android:layout_toRightOf="@+id/imgBtnComment"
+        android:text="TextView" />
 
 </RelativeLayout>

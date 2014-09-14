@@ -6,5 +6,7 @@
     <string name="caption_default_text">Default Caption</string>
     <string name="userName_default_text">Default user name</string>
     <string name="location_default_text">Location</string>
+    <string name="likes_default_caption">Likes</string>
+    <string name="comments_default_text">Comments</string>
 
 </resources>

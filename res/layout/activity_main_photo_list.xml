@@ -12,7 +12,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="14dp"
         android:dividerHeight="10.0sp" >
 
     </ListView>

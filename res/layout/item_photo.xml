@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/imgPhoto"
-        android:layout_marginLeft="26dp"
-        android:text="TextView" />
 
     <ImageView
         android:id="@+id/imgProfilePhoto"
@@ -23,32 +15,6 @@
         android:scaleType="fitXY"
         android:src="@drawable/ic_launcher" />
 
-    <TextView
-        android:id="@+id/tvCaption"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView3"
-        android:layout_below="@+id/textView3"
-        android:ellipsize="end"
-        android:maxLines="3"
-        android:text="@string/caption_default_text" />
-
-    <TextView
-        android:id="@+id/tvLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvUserName"
-        android:layout_toRightOf="@+id/imgProfilePhoto"
-        android:text="@string/location_default_text" />
-
-    <TextView
-        android:id="@+id/tvUserName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tvLocation"
-        android:layout_alignParentTop="true"
-        android:text="@string/userName_default_text" />
-
     <ImageView
         android:id="@+id/imgPhoto"
         android:layout_width="wrap_content"
@@ -59,5 +25,51 @@
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/tvCaption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvLikes"
+        android:layout_below="@+id/tvLikes"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:text="@string/caption_default_text" />
+
+    <TextView
+        android:id="@+id/tvLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvUserName"
+        android:layout_below="@+id/tvUserName"
+        android:text="@string/location_default_text" />
+
+    <TextView
+        android:id="@+id/tvUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/imgProfilePhoto"
+        android:text="@string/userName_default_text"
+        android:textColor="#3333CC"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvLikes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvLocation"
+        android:layout_below="@+id/imgPhoto"
+        android:drawablePadding="2dp"
+        android:text="TextView" />
+
+    <ImageView
+        android:id="@+id/imgHeart"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignRight="@+id/imgProfilePhoto"
+        android:layout_alignTop="@+id/tvLikes"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_heart" />
 
 </RelativeLayout>

@@ -67,7 +67,7 @@ public class PhotosActivity extends Activity {
 					for (i = 0; i < photosJSON.length(); i++) {
 						JSONObject photoJSON = photosJSON.getJSONObject(i);
 						InstagramPhoto photo = new InstagramPhoto();
-						photo.userName = getStringIfNotNull(
+						String userName = getStringIfNotNull(
 								photoJSON.getJSONObject("user"), "username", "");
 						if (!photoJSON.isNull("caption")) {
 							photo.caption = getStringIfNotNull(
@@ -84,8 +84,21 @@ public class PhotosActivity extends Activity {
 						photo.likesCount = getIntIfNotNull(
 								photoJSON.getJSONObject("likes"), "count", 0);
 						
-						photo.profileImageUrl = getStringIfNotNull(
+						String profileImageUrl = getStringIfNotNull(
 								photoJSON.getJSONObject("user"), "profile_picture", "");
+						photo.user = new User();
+						photo.user.profilePictureUrl = profileImageUrl;
+						photo.user.userName = userName;
+						JSONObject likesContainer = photoJSON.getJSONObject("likes");
+						photo.likesCount = getIntIfNotNull(likesContainer, "count", 0);
+						
+						// parse commentors
+						JSONObject commentsContainer = photoJSON.getJSONObject("comments");
+						if (commentsContainer != null) {
+							JSONArray comments = commentsContainer.getJSONArray("data");
+							parseComments(photo, comments);
+						}
+						
 						if (!photoJSON.isNull("location")) {
 							//photo.location = getStringIfNotNull(photoJSON, "location", "");
 							photo.location = "World";
@@ -103,6 +116,19 @@ public class PhotosActivity extends Activity {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+				}
+			}
+
+			private void parseComments(InstagramPhoto photo, JSONArray comments)
+					throws JSONException {
+				for (int j = 0; comments!= null && j < comments.length(); j++) {
+					JSONObject photoComment = comments.getJSONObject(j);
+					Comment c = new Comment();
+					c.user = new User();
+					c.user.userName = getStringIfNotNull(photoComment.getJSONObject("from"), "username", "");
+					c.user.profilePictureUrl = getStringIfNotNull(photoComment.getJSONObject("from"), "profile_picture", "");
+					c.comment = getStringIfNotNull(photoComment, "text", "");
+					photo.comments.add(c);
 				}
 			}
 

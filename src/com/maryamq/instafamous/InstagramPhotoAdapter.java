@@ -5,6 +5,7 @@ import java.util.List;
 import com.squareup.picasso.Picasso;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,14 +33,17 @@ public class InstagramPhotoAdapter extends ArrayAdapter<InstagramPhoto> {
 		TextView tvCaption = (TextView) convertView.findViewById(R.id.tvCaption);
 		TextView tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
 		TextView tvLocation = (TextView) convertView.findViewById(R.id.tvLocation);
+		TextView tvLikes = (TextView) convertView.findViewById(R.id.tvLikes);
 		
 		ImageView imgPhoto = (ImageView) convertView.findViewById(R.id.imgPhoto);
 		ImageView imgProfile = (ImageView)convertView.findViewById(R.id.imgProfilePhoto);
 		
 		
-		tvCaption.setText(photo.caption);
-		tvUserName.setText(photo.userName);
+		String captionHtml = String.format("<b> <span style='color:#6666FF'>%s</span></b>&nbsp;<span>%s</span>", photo.user.userName, photo.caption);
+		tvCaption.setText(Html.fromHtml(captionHtml));
+		tvUserName.setText(photo.user.userName);
 		tvLocation.setText(photo.location);
+		tvLikes.setText(photo.likesCount + " likes");
 		
 		imgPhoto.getLayoutParams().height = photo.imageHeight;
 		imgPhoto.setImageResource(0); // clear out image until image is
@@ -47,7 +51,7 @@ public class InstagramPhotoAdapter extends ArrayAdapter<InstagramPhoto> {
 		imgProfile.setImageResource(0);
 		
 		Picasso.with(getContext()).load(photo.imageUrl).into(imgPhoto);
-		Picasso.with(getContext()).load(photo.profileImageUrl).into(imgProfile);
+		Picasso.with(getContext()).load(photo.user.profilePictureUrl).into(imgProfile);
 		return convertView;
 
 	}

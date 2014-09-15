@@ -1,7 +1,6 @@
 package com.maryamq.instafamous;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -10,7 +9,8 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -22,7 +22,8 @@ public class PhotosActivity extends Activity {
 	static final String CLIENT_ID = "e76164196b7e4a7a81c4c59962d5bf1b";
 	static final String POP_URL = "https://api.instagram.com/v1/media/popular?client_id="
 			+ CLIENT_ID;
-	static final String LOCATION_URL = "https://api.instagram.com/v1/locations/search?lat=%s&lng=%s&access_token=" + CLIENT_ID;
+	static final String LOCATION_URL = "https://api.instagram.com/v1/locations/search?lat=%s&lng=%s&access_token="
+			+ CLIENT_ID;
 	private ArrayList<InstagramPhoto> photos;
 	private InstagramPhotoAdapter aPhotos;
 
@@ -30,7 +31,27 @@ public class PhotosActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_photo_list);
+		this.setupSwipe();
 		fetchPopularPhotos();
+	}
+
+	private void setupSwipe() {
+		SwipeRefreshLayout swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+		// Setup refresh listener which triggers new data loading
+		swipeContainer.setOnRefreshListener(new OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				// Your code to refresh the list here.
+				// Make sure you call swipeContainer.setRefreshing(false)
+				// once the network request has completed successfully.
+				fetchPopularPhotos();
+			}
+		});
+		// Configure the refreshing colors
+		swipeContainer.setColorScheme(android.R.color.holo_blue_bright,
+				android.R.color.holo_green_light,
+				android.R.color.holo_orange_light,
+				android.R.color.holo_red_light);
 	}
 
 	private String getStringIfNotNull(JSONObject json, String key,
@@ -47,7 +68,7 @@ public class PhotosActivity extends Activity {
 	private void showToast(String text) {
 		Toast.makeText(this.getBaseContext(), text, Toast.LENGTH_LONG).show();
 	}
-	
+
 	private void fetchPopularPhotos() {
 		photos = new ArrayList<InstagramPhoto>();
 		aPhotos = new InstagramPhotoAdapter(this, photos);
@@ -68,17 +89,18 @@ public class PhotosActivity extends Activity {
 					for (i = 0; i < photosJSON.length(); i++) {
 						JSONObject photoJSON = photosJSON.getJSONObject(i);
 						// Check if this is an image
-						if (!getStringIfNotNull(photoJSON, "type", "image").equals("image")) {
+						if (!getStringIfNotNull(photoJSON, "type", "image")
+								.equals("image")) {
 							continue;
 						}
-							
-						
+
 						InstagramPhoto photo = new InstagramPhoto();
 						String userName = getStringIfNotNull(
 								photoJSON.getJSONObject("user"), "username", "");
 						if (!photoJSON.isNull("caption")) {
 							photo.caption = getStringIfNotNull(
-									photoJSON.getJSONObject("caption"), "text", "");
+									photoJSON.getJSONObject("caption"), "text",
+									"");
 						}
 						photo.imageUrl = getStringIfNotNull(
 								photoJSON.getJSONObject("images")
@@ -90,32 +112,41 @@ public class PhotosActivity extends Activity {
 								"height", 0);
 						photo.likesCount = getIntIfNotNull(
 								photoJSON.getJSONObject("likes"), "count", 0);
-						
+
 						String profileImageUrl = getStringIfNotNull(
-								photoJSON.getJSONObject("user"), "profile_picture", "");
+								photoJSON.getJSONObject("user"),
+								"profile_picture", "");
 						photo.user = new User();
 						photo.user.profilePictureUrl = profileImageUrl;
 						photo.user.userName = userName;
-						JSONObject likesContainer = photoJSON.getJSONObject("likes");
-						photo.likesCount = getIntIfNotNull(likesContainer, "count", 0);
-						
+						JSONObject likesContainer = photoJSON
+								.getJSONObject("likes");
+						photo.likesCount = getIntIfNotNull(likesContainer,
+								"count", 0);
+
 						// parse commentors
-						JSONObject commentsContainer = photoJSON.getJSONObject("comments");
+						JSONObject commentsContainer = photoJSON
+								.getJSONObject("comments");
 						if (commentsContainer != null) {
-							photo.commentsCount = getIntIfNotNull(commentsContainer, "count", 0);
-							JSONArray comments = commentsContainer.getJSONArray("data");
+							photo.commentsCount = getIntIfNotNull(
+									commentsContainer, "count", 0);
+							JSONArray comments = commentsContainer
+									.getJSONArray("data");
 							parseComments(photo, comments);
 						}
-						
+
 						photo.location = "Unknown Location";
 						if (!photoJSON.isNull("location")) {
-							//photo.location = getStringIfNotNull(photoJSON, "location", "");
+							// photo.location = getStringIfNotNull(photoJSON,
+							// "location", "");
 							photo.location = "World";
 						}
-						
+
 						photos.add(photo);
 					}
 					aPhotos.notifyDataSetChanged();
+					SwipeRefreshLayout swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+					swipeContainer.setRefreshing(false);
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -128,14 +159,24 @@ public class PhotosActivity extends Activity {
 				}
 			}
 
+			@Override
+			public void onFailure(int statusCode, Header[] headers,
+					Throwable throwable, JSONObject errorResponse) {
+				// TODO Auto-generated method stub
+				super.onFailure(statusCode, headers, throwable, errorResponse);
+			}
+
 			private void parseComments(InstagramPhoto photo, JSONArray comments)
 					throws JSONException {
-				for (int j = 0; comments!= null && j < comments.length(); j++) {
+				for (int j = 0; comments != null && j < comments.length(); j++) {
 					JSONObject photoComment = comments.getJSONObject(j);
 					Comment c = new Comment();
 					c.user = new User();
-					c.user.userName = getStringIfNotNull(photoComment.getJSONObject("from"), "username", "");
-					c.user.profilePictureUrl = getStringIfNotNull(photoComment.getJSONObject("from"), "profile_picture", "");
+					c.user.userName = getStringIfNotNull(
+							photoComment.getJSONObject("from"), "username", "");
+					c.user.profilePictureUrl = getStringIfNotNull(
+							photoComment.getJSONObject("from"),
+							"profile_picture", "");
 					c.comment = getStringIfNotNull(photoComment, "text", "");
 					photo.comments.add(c);
 
@@ -147,7 +188,7 @@ public class PhotosActivity extends Activity {
 					String responseString, Throwable throwable) {
 				// TODO Auto-generated method stub
 				super.onFailure(statusCode, headers, responseString, throwable);
-				showToast("Error loading images!");
+				showToast("Error loading images. !");
 			}
 
 		});

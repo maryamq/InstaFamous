@@ -1,6 +1,7 @@
 package com.maryamq.instafamous;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -9,6 +10,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -46,7 +48,6 @@ public class PhotosActivity extends Activity {
 		Toast.makeText(this.getBaseContext(), text, Toast.LENGTH_LONG).show();
 	}
 	
-
 	private void fetchPopularPhotos() {
 		photos = new ArrayList<InstagramPhoto>();
 		aPhotos = new InstagramPhotoAdapter(this, photos);

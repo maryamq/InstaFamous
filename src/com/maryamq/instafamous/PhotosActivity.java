@@ -31,6 +31,7 @@ public class PhotosActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_photo_list);
+		photos = new ArrayList<InstagramPhoto>();
 		this.setupSwipe();
 		fetchPopularPhotos();
 	}
@@ -41,9 +42,6 @@ public class PhotosActivity extends Activity {
 		swipeContainer.setOnRefreshListener(new OnRefreshListener() {
 			@Override
 			public void onRefresh() {
-				// Your code to refresh the list here.
-				// Make sure you call swipeContainer.setRefreshing(false)
-				// once the network request has completed successfully.
 				fetchPopularPhotos();
 			}
 		});
@@ -70,10 +68,12 @@ public class PhotosActivity extends Activity {
 	}
 
 	private void fetchPopularPhotos() {
-		photos = new ArrayList<InstagramPhoto>();
-		aPhotos = new InstagramPhotoAdapter(this, photos);
-		ListView lvPhotos = (ListView) findViewById(R.id.lvPhotos);
-		lvPhotos.setAdapter(aPhotos);
+		if (aPhotos == null) {
+			aPhotos = new InstagramPhotoAdapter(this, photos);
+			ListView lvPhotos = (ListView) findViewById(R.id.lvPhotos);
+			lvPhotos.setAdapter(aPhotos);
+		}
+		photos.clear();
 
 		AsyncHttpClient client = new AsyncHttpClient();
 		client.get(POP_URL, new JsonHttpResponseHandler() {

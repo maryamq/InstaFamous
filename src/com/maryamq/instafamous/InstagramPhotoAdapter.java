@@ -75,8 +75,7 @@ public class InstagramPhotoAdapter extends ArrayAdapter<InstagramPhoto> {
 		tvLikes.setText(photo.likesCount + " likes");
 		tvCommentsCount.setText(photo.commentsCount + " comments");
 
-		imgPhoto.setImageResource(0); // clear out image until image is
-										// successfully loaded.
+		imgPhoto.setImageResource(0); // clear out image until image is									// successfully loaded.
 		imgProfile.setImageResource(0);
 
 		RequestCreator picassoRequest = Picasso.with(getContext()).load(
@@ -84,6 +83,7 @@ public class InstagramPhotoAdapter extends ArrayAdapter<InstagramPhoto> {
 		picassoRequest.transform(getImageScaleTransformer(imgPhoto.getWidth(),
 				imgPhoto.getHeight()));
 		picassoRequest.into(imgPhoto);
+	
 
 		Picasso.with(getContext()).load(photo.user.profilePictureUrl)
 				.into(imgProfile);

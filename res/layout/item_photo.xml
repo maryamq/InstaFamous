@@ -98,7 +98,9 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/tvLocation"
         android:layout_alignParentRight="true"
-        android:padding="2dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
         android:text="Creation time"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#666699" />

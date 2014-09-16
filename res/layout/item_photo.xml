@@ -35,6 +35,7 @@
         android:layout_below="@+id/tvLikes"
         android:ellipsize="end"
         android:maxLines="3"
+        android:paddingRight="2dp"
         android:text="@string/caption_default_text" />
 
     <TextView
@@ -90,5 +91,16 @@
         android:layout_marginBottom="14dp"
         android:layout_toRightOf="@+id/imgBtnComment"
         android:text="@string/comments_default_text" />
+
+    <TextView
+        android:id="@+id/tvCreationTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tvLocation"
+        android:layout_alignParentRight="true"
+        android:padding="2dp"
+        android:text="Creation time"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#666699" />
 
 </RelativeLayout>

@@ -35,7 +35,7 @@ public class InstagramCommentsAdapter extends ArrayAdapter<Comment> {
 		TextView tvSingleComment = (TextView)convertView.findViewById(R.id.tvSingleComment);
 		ImageView ivCommentProfile = (ImageView)convertView.findViewById(R.id.ivCommentProfile);
 		
-		String commentsHtml = String.format("<b> <span style='color:#6666FF'>%s</span></b>&nbsp;<span>%s</span>", comment.user.userName, comment.comment);
+		String commentsHtml = String.format("<b> <span style='color:#6666FF'>%s</span></b>&nbsp;<span>%s</span>", comment.user.userName, comment.text);
 		tvSingleComment.setText(Html.fromHtml(commentsHtml));
 
 		Picasso.with(getContext()).load(comment.user.profilePictureUrl).into(ivCommentProfile);

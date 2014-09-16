@@ -8,6 +8,7 @@ public class InstagramPhoto {
 	public String caption = "";
 	public int imageHeight;
 	public int likesCount;
+	public long creationTime;
 	public String imageUrl;
 	public String location = "";
 	public List<Comment> comments = new ArrayList<Comment>();
@@ -17,7 +18,8 @@ public class InstagramPhoto {
 
 class Comment {
 	public User user;
-	public String comment;
+	public String text;
+	public long createdTime;
 }
 class User {
 	String userName;

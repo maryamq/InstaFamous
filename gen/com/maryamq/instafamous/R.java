@@ -11,9 +11,11 @@ public final class R {
     public static final class attr {
     }
     public static final class drawable {
-        public static final int ic_heart=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
-        public static final int ic_speak=0x7f020002;
+        public static final int ic_app_icon=0x7f020000;
+        public static final int ic_camear=0x7f020001;
+        public static final int ic_heart=0x7f020002;
+        public static final int ic_launcher=0x7f020003;
+        public static final int ic_speak=0x7f020004;
     }
     public static final class id {
         public static final int imgBtnComment=0x7f06000c;
@@ -26,6 +28,7 @@ public final class R {
         public static final int swipeContainer=0x7f060000;
         public static final int tvCaption=0x7f060008;
         public static final int tvCommentsCount=0x7f06000d;
+        public static final int tvCreationTime=0x7f06000e;
         public static final int tvLikes=0x7f060009;
         public static final int tvLocation=0x7f060007;
         public static final int tvSingleComment=0x7f060004;

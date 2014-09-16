@@ -5,6 +5,7 @@ import java.util.List;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.Html;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -54,8 +55,11 @@ public class InstagramPhotoAdapter extends ArrayAdapter<InstagramPhoto> {
 		TextView tvLikes = (TextView) convertView.findViewById(R.id.tvLikes);
 		TextView tvCommentsCount = (TextView) convertView
 				.findViewById(R.id.tvCommentsCount);
+		TextView tvCreationTime = (TextView) convertView
+				.findViewById(R.id.tvCreationTime);
 		ImageButton imgBtnComments = (ImageButton) convertView
 				.findViewById(R.id.imgBtnComment);
+		
 		imgBtnComments
 				.setOnClickListener(getDialogOnClickListener(photo.comments));
 		tvCommentsCount
@@ -74,6 +78,8 @@ public class InstagramPhotoAdapter extends ArrayAdapter<InstagramPhoto> {
 		tvLocation.setText(photo.location);
 		tvLikes.setText(photo.likesCount + " likes");
 		tvCommentsCount.setText(photo.commentsCount + " comments");
+		tvCreationTime.setText(DateUtils.getRelativeTimeSpanString(
+				photo.creationTime * 1000, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_ABBREV_ALL));
 
 		imgPhoto.setImageResource(0); // clear out image until image is									// successfully loaded.
 		imgProfile.setImageResource(0);

@@ -63,6 +63,11 @@ public class PhotosActivity extends Activity {
 		return json != null && json.has(key) ? json.getInt(key) : defaultIfNull;
 	}
 
+	private long getLongIfNotNull(JSONObject json, String key, long defaultIfNull)
+			throws JSONException {
+		return json != null && json.has(key) ? json.getLong(key) : defaultIfNull;
+	}
+	
 	private void showToast(String text) {
 		Toast.makeText(this.getBaseContext(), text, Toast.LENGTH_LONG).show();
 	}
@@ -119,6 +124,8 @@ public class PhotosActivity extends Activity {
 						photo.user = new User();
 						photo.user.profilePictureUrl = profileImageUrl;
 						photo.user.userName = userName;
+						photo.creationTime = getLongIfNotNull(photoJSON, "created_time", 0);
+						
 						JSONObject likesContainer = photoJSON
 								.getJSONObject("likes");
 						photo.likesCount = getIntIfNotNull(likesContainer,
@@ -177,7 +184,8 @@ public class PhotosActivity extends Activity {
 					c.user.profilePictureUrl = getStringIfNotNull(
 							photoComment.getJSONObject("from"),
 							"profile_picture", "");
-					c.comment = getStringIfNotNull(photoComment, "text", "");
+					c.text = getStringIfNotNull(photoComment, "text", "");
+					c.createdTime = getLongIfNotNull(photoComment, "created_time", System.currentTimeMillis());
 					photo.comments.add(c);
 
 				}
